@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Parse flags
-	interview := flag.Bool("interview", false, "Boolean flag for running interview logic on target")
+	interview := flag.Bool("interview", false, "Boolean flag for running interview logic on target URL")
 	target := flag.String("target", "", "Target URL for load testing")
 	loops := flag.Int("loops", 5, "Number of times you want to hit target URL with a GET request")
 
@@ -22,11 +22,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Notify user if interview logic is enabled
-	if *interview {
-		fmt.Println("Interview logic will be applied to ", *target)
-	}
-
 	load(*target, *interview, *loops)
 }
 
@@ -34,7 +29,7 @@ func load(url string, interview bool, loops int) {
 	var output string
 	delay := 1
 
-	// limit loops to 3 for interview logic to satisfy 1s, 2s, 4s GET request requirement
+	// limit loops to 3 for interview logic to satisfy 1s, 2s, 4s GET request timeout requirement
 	if interview {
 		loops = 3
 	}
