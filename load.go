@@ -35,18 +35,23 @@ func load(url string, interview bool) {
 	output := fmt.Sprintf("Load func, url=%s, interview=%t", url, interview)
 	fmt.Println(output)
 
-	//timeout := time.Duration(1 * time.Second)
 	delay := 1
-	client := http.Client{
-		Timeout: timeout(delay*4),
-	}
 
-	resp, err := client.Get(url)
+	for i := 1; i <= 3; i++ {
+		client := http.Client{
+			Timeout: timeout(delay),
+		}
 
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(resp)
+		fmt.Println("Timeout of ", delay)
+		resp, err := client.Get(url)
+
+		if err != nil {
+			fmt.Println(err)
+			// If error, increase timeout by factor of two
+			delay = delay * 2
+		} else {
+			fmt.Println(resp)
+		}
 	}
 }
 
