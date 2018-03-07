@@ -12,6 +12,7 @@ func main() {
 	// Parse flags
 	interview := flag.Bool("interview", false, "Boolean flag for running interview logic on target")
 	target := flag.String("target", "", "Target URL for load testing")
+	loops := flag.Int("loops", 5, "Number of times you want to hit target URL with a GET request")
 
 	flag.Parse()
 
@@ -28,16 +29,20 @@ func main() {
 		fmt.Println("You will apply interview logic to ", *target)
 	}
 
-	load(*target, *interview)
+	load(*target, *interview, *loops)
 }
 
-func load(url string, interview bool) {
+func load(url string, interview bool, loops int) {
 	output := fmt.Sprintf("Load func, url=%s, interview=%t", url, interview)
 	fmt.Println(output)
 
 	delay := 1
 
-	for i := 1; i <= 3; i++ {
+	if interview {
+		loops = 3
+	}
+
+	for i := 1; i <= loops; i++ {
 		client := http.Client{
 			Timeout: timeout(delay),
 		}
