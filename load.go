@@ -22,34 +22,37 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println("URL target is ", *target)
-
 	// Notify user if interview logic is enabled
 	if *interview {
-		fmt.Println("You will apply interview logic to ", *target)
+		fmt.Println("Interview logic will be applied to ", *target)
 	}
 
 	load(*target, *interview, *loops)
 }
 
 func load(url string, interview bool, loops int) {
-	output := fmt.Sprintf("Load func, url=%s, interview=%t", url, interview)
-	fmt.Println(output)
-
+	var output string
 	delay := 1
 
+	// limit loops to 3 for interview logic to satisfy 1s, 2s, 4s GET request requirement
 	if interview {
 		loops = 3
 	}
 
 	for i := 1; i <= loops; i++ {
+		// Set http client timeout
 		client := http.Client{
 			Timeout: timeout(delay),
 		}
 
-		fmt.Println("Timeout of ", delay)
+		// Log details about request
+		output = fmt.Sprintf("target=%s, timeout=%ds, loop=%d, interview=%t", url, delay, i, interview)
+		fmt.Println(output)
+
+		// GET request
 		resp, err := client.Get(url)
 
+		// Log response
 		if err != nil {
 			fmt.Println(err)
 			// If error, increase timeout by factor of two
