@@ -9,14 +9,25 @@ Docker repo to play with Golang and fire off some connections at end points
 
 # Use
 
-`$GOPATH/bin/go-load [flags] target`
+`$GOPATH/bin/go-load -target=https://httpbin.org`
 
 # Command line arguments
 
-Currently the only supported flag is `-interview`, as this repo first started as an interview take home test! The flag is not required, but will apply the following logic to `target`:
+`$GOPATH/bin/go-load -h` will output help text for available arguments.
 
-1. Hit `target`, wait for one second, log to stdout.
-2. Hit `target`, wait for two seconds, log to stdout.
-3. Hit `target`, wait for four seconds, log to stdout.
+```
+  -interview
+        Boolean flag for running interview logic on target
+  -target string
+        Target URL for load testing
+```
 
-If `target` is "https://httpbin.org/delay/3", the first two calls should timeout, and last call should succeed.
+`-target` is required.
+
+`-interview` is optional, as this repo first started as an interview take home test! It will apply the following logic to your target URL:
+
+1. Hit target, wait for one second, log to stdout.
+2. Hit target, wait for two seconds, log to stdout.
+3. Hit target, wait for four seconds, log to stdout.
+
+If `-target=https://httpbin.org/delay/3`, the first two calls timeout, and last call succeeds.
