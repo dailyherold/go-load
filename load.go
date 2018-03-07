@@ -3,7 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -25,4 +27,19 @@ func main() {
 	if *interview {
 		fmt.Println("You will apply interview logic to ", *target)
 	}
+
+	load(*target, *interview)
+}
+
+func load(url string, interview bool) {
+	output := fmt.Sprintf("Load func, url=%s, interview=%t", url, interview)
+	fmt.Println(output)
+
+	timeout := time.Duration(1 * time.Second)
+	client := http.Client{
+		Timeout: timeout,
+	}
+	resp, err := client.Get(url)
+	fmt.Println(resp)
+	fmt.Println(err)
 }
