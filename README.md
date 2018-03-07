@@ -17,12 +17,16 @@ Docker repo to play with Golang and fire off some connections at end points.
 
 ```
   -interview
-        Boolean flag for running interview logic on target
+        Boolean flag for running interview logic on target URL
+  -loops int
+        Number of times you want to hit target URL with a GET request (default 5)
   -target string
         Target URL for load testing
 ```
 
 `-target` is required.
+
+`-loops` controls how many GET requests will be made against target URL (default 5).
 
 `-interview` is optional, as this repo first started as an interview take home test! It will apply the following logic to your target URL:
 
@@ -54,7 +58,9 @@ The image's `ENTRYPOINT` is `./load` which allows you to pass any go-load argume
 ❯ docker run --rm github.com/dailyherold/go-load:0.0.1
 Usage of ./load:
   -interview
-        Boolean flag for running interview logic on target
+        Boolean flag for running interview logic on target URL
+  -loops int
+        Number of times you want to hit target URL with a GET request (default 5)
   -target string
         Target URL for load testing
 ```
